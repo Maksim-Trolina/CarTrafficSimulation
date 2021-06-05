@@ -16,5 +16,20 @@ namespace TrafficJam
         {
             InitializeComponent();
         }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            decimal percentageCars = percentageCarsNumeric.Value;
+            decimal maxSpeed = maxSpeedNumeric.Value;
+            uint countCars = (uint) countCarsNumeric.Value;
+
+            var form = new MainForm(percentageCars, maxSpeed, countCars);
+
+            Hide();
+
+            form.ShowDialog();
+
+            Close();
+        }
     }
 }
