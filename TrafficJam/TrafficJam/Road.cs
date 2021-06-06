@@ -9,24 +9,28 @@ namespace TrafficJam
 {
     class Road
     {
-        decimal maxSpeed;
+        int maxSpeed;
 
-        decimal percentageCars;
+        double percentageCars;
 
-        decimal startPositionX;
+        int startPositionX;
 
         const uint MaxCars = 10;
 
         uint countCars = 0;
+
+        Random random;
         public SortedSet<Car> Cars { get; set; }
 
-        public Road(uint countCars, decimal percentageCars, decimal maxSpeed, decimal startPositionX)
+        public Road(uint countCars, double percentageCars, int maxSpeed, int startPositionX)
         {
             this.maxSpeed = maxSpeed;
 
             this.startPositionX = startPositionX;
 
             this.percentageCars = percentageCars;
+
+            random = new Random(DateTime.Now.Second);
 
             var comparer = new CarComparer();
 
@@ -55,13 +59,27 @@ namespace TrafficJam
             }
         }
 
+        bool IsEvenlyMovingCar()
+        {
+            double num = random.NextDouble();
+
+            return !(percentageCars / 100 > num);
+        }
+
         Car CreateCar()
         {
-            var random = new Random(DateTime.Now.Second);
+            Car car;
 
-            var speed = /*(decimal)random.Next(0, (int) maxSpeed);*/10;
+            if (IsEvenlyMovingCar())
+            {
+                var speed = random.Next(1, maxSpeed);
 
-            var car = new Car(speed, 0);
+                car = new KeepDistanceCar(speed, startPositionX);
+            }
+            else
+            {
+                car = new UnKeepDistanceCar(maxSpeed, startPositionX);
+            }
 
             return car;
         }

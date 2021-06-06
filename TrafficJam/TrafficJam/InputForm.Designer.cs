@@ -65,7 +65,6 @@ namespace TrafficJam
             // 
             // maxSpeedNumeric
             // 
-            this.maxSpeedNumeric.DecimalPlaces = 3;
             this.maxSpeedNumeric.Location = new System.Drawing.Point(395, 114);
             this.maxSpeedNumeric.Maximum = new decimal(new int[] {
             250,

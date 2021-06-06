@@ -13,19 +13,21 @@ namespace TrafficJam
 {
     public partial class MainForm : Form
     {
-        decimal percentageCars;
+        double percentageCars;
 
-        decimal maxSpeed;
+        int maxSpeed;
 
         uint countCars;
 
-        const decimal StartPositionX = 10;
+        const int StartPositionX = 10;
 
         const int StartPositionY = 10;
 
         const int WidthCar = 100;
 
         const int HeightCar = 100;
+
+        const int RenderInterval = 100;
 
         System.Windows.Forms.Timer timer;
 
@@ -35,7 +37,7 @@ namespace TrafficJam
             InitializeComponent();
         }
 
-        public MainForm(decimal percentageCars, decimal maxSpeed, uint countCars)
+        public MainForm(double percentageCars, int maxSpeed, uint countCars)
         {
             InitializeComponent();
 
@@ -51,7 +53,7 @@ namespace TrafficJam
 
             timer = new System.Windows.Forms.Timer();
 
-            timer.Interval = 100;
+            timer.Interval = RenderInterval;
 
             timer.Tick += new EventHandler(Rendering);
 
@@ -83,7 +85,7 @@ namespace TrafficJam
 
             foreach (var car in road.Cars)
             {
-                graphics.DrawEllipse(new Pen(Brushes.Red, 3), (int) (car.PositionX + StartPositionX), StartPositionY, WidthCar, HeightCar);
+                graphics.DrawEllipse(new Pen(Brushes.Red, 3), car.PositionX, StartPositionY, WidthCar, HeightCar);
             }
         }
     }

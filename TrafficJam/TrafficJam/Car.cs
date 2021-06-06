@@ -6,22 +6,10 @@ using System.Threading.Tasks;
 
 namespace TrafficJam
 {
-    class Car
+    abstract class  Car
     {
-        decimal speed;
+        public int PositionX { get; protected set; }
 
-        public decimal PositionX { get; set; }
-
-        public Car(decimal speed, decimal positionX)
-        {
-            this.speed = speed;
-
-            PositionX = positionX;
-        }
-
-        public void Move()
-        {
-            PositionX += speed;
-        }
+        public abstract void Move();
     }
 }
