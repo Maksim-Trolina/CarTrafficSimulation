@@ -16,7 +16,7 @@ namespace TrafficJam
         {
             InitializeComponent();
         }
-
+        //Срабатывает когда нажимается кнопка Старт
         private void btnStart_Click(object sender, EventArgs e)
         {
             double percentageCars = (double) percentageCarsNumeric.Value;
@@ -25,10 +25,13 @@ namespace TrafficJam
 
             var form = new MainForm(percentageCars, maxSpeed, countCars);
 
+            //Прячет форму текущую
             Hide();
 
+            //Открывает другую форму
             form.ShowDialog();
 
+            //После того как форма, которая до этого была открыта, закроет, то тоже закроет эту форму
             Close();
         }
     }

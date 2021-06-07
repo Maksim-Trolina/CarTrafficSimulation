@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace TrafficJam
 {
+    //Базовый класс для разных видов машин
     abstract class  Car
     {
+        protected int speed;
+        public int Width { get; protected set; }
         public int PositionX { get; protected set; }
 
-        public abstract void Move();
+        public abstract void Move(Car frontCar);
     }
 }

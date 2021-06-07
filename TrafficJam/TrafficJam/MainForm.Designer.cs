@@ -29,39 +29,29 @@ namespace TrafficJam
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnStop = new System.Windows.Forms.Button();
-            this.btnStart = new System.Windows.Forms.Button();
+            this.btnChangeState = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // btnStop
+            // btnChangeState
             // 
-            this.btnStop.Location = new System.Drawing.Point(56, 40);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(75, 23);
-            this.btnStop.TabIndex = 0;
-            this.btnStop.Text = "Stop";
-            this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
-            // 
-            // btnStart
-            // 
-            this.btnStart.Location = new System.Drawing.Point(245, 40);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 23);
-            this.btnStart.TabIndex = 1;
-            this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            this.btnChangeState.Location = new System.Drawing.Point(224, 325);
+            this.btnChangeState.Name = "btnChangeState";
+            this.btnChangeState.Size = new System.Drawing.Size(75, 23);
+            this.btnChangeState.TabIndex = 1;
+            this.btnChangeState.Text = "Стоп";
+            this.btnChangeState.UseVisualStyleBackColor = true;
+            this.btnChangeState.Click += new System.EventHandler(this.btnChangeState_Click);
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(377, 40);
+            this.btnSave.Location = new System.Drawing.Point(393, 325);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 2;
-            this.btnSave.Text = "Save";
+            this.btnSave.Text = "Сохранить";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // MainForm
             // 
@@ -69,18 +59,16 @@ namespace TrafficJam
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.btnStart);
-            this.Controls.Add(this.btnStop);
+            this.Controls.Add(this.btnChangeState);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "Modeling";
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnStop;
-        private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.Button btnChangeState;
         private System.Windows.Forms.Button btnSave;
     }
 }

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,70 +15,92 @@ namespace TrafficJam
 {
     public partial class MainForm : Form
     {
-        double percentageCars;
-
-        int maxSpeed;
-
-        uint countCars;
-
         const int StartPositionX = 10;
 
         const int StartPositionY = 10;
 
-        const int WidthCar = 100;
+        const int WidthCar = 50;
 
-        const int HeightCar = 100;
+        const int HeightCar = 50;
 
         const int RenderInterval = 100;
 
-        System.Windows.Forms.Timer timer;
+        const string StopStateText = "Стоп";
+
+        const string StartStateText = "Старт";
+
+        System.Windows.Forms.Timer timerRender;
+
+        Stopwatch timerWork;
 
         Road road;
+
+        SaveFileDialog saveFileDialog;
         public MainForm()
         {
             InitializeComponent();
         }
 
+        //Инициализация всего необходимого(этот метод это конструктор формы)
         public MainForm(double percentageCars, int maxSpeed, uint countCars)
         {
             InitializeComponent();
 
             DoubleBuffered = true;
 
-            this.percentageCars = percentageCars;
+            MaximizeBox = false;
 
-            this.maxSpeed = maxSpeed;
+            MinimizeBox = false;
 
-            this.countCars = countCars;
+            road = new Road(percentageCars, maxSpeed, StartPositionX, WidthCar / 2, Width, countCars);
 
-            road = new Road(countCars, percentageCars, maxSpeed, StartPositionX);
+            timerRender = new System.Windows.Forms.Timer
+            {
+                Interval = RenderInterval
+            };
 
-            timer = new System.Windows.Forms.Timer();
+            timerRender.Tick += new EventHandler(Rendering);
 
-            timer.Interval = RenderInterval;
+            timerRender.Start();
 
-            timer.Tick += new EventHandler(Rendering);
+            timerWork = new Stopwatch();
 
-            timer.Start();
+            timerWork.Start();
+
+            saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
         }
 
+        //Происходит каждые RenderInterval мс
         void Rendering(object myObject, EventArgs myEventArgs)
         {
             road.MoveCars();
 
+            //Вызывает метод OnPaint, который все перерисовывает
             Invalidate();
         }
 
-        void btnStart_Click(object sender, EventArgs e)
+        //Когда нажимаем на кнопку Старт/Стоп
+        void btnChangeState_Click(object sender, EventArgs e)
         {
+            if (timerRender.Enabled)
+            {
+                btnChangeState.Text = StopStateText;
 
+                timerWork.Stop();
+            }
+            else
+            {
+                btnChangeState.Text = StartStateText;
+
+                timerWork.Start();
+            }
+
+            timerRender.Enabled = !timerRender.Enabled;
         }
 
-        void btnStop_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        //Рендеринг(переписовка) машин
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -85,8 +109,21 @@ namespace TrafficJam
 
             foreach (var car in road.Cars)
             {
-                graphics.DrawEllipse(new Pen(Brushes.Red, 3), car.PositionX, StartPositionY, WidthCar, HeightCar);
+                graphics.DrawEllipse(new Pen(Brushes.Red, 3), car.PositionX - 9, StartPositionY, WidthCar, HeightCar);
             }
+        }
+
+        //Срабатывает когда нажимаем по кнопке сохранить
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            string fileName = saveFileDialog.FileName;
+
+            File.WriteAllText(fileName, $"За {timerWork.Elapsed.Seconds} секунд проехало дорогу, протяженностью {Width}, {road.CarsFinished} машин ");
         }
     }
 }

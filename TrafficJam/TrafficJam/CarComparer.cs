@@ -13,7 +13,7 @@ namespace TrafficJam
             if (car1.PositionX == car2.PositionX)
                 return 0;
 
-            return car1.PositionX > car2.PositionX ? 1 : -1;
+            return car1.PositionX < car2.PositionX ? 1 : -1;
         }
     }
 }

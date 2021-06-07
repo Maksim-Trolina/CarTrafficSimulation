@@ -6,24 +6,36 @@ using System.Threading.Tasks;
 
 namespace TrafficJam
 {
+    //Производный класс машины, представляет машину, не соблюдающую дистанцию
     class UnKeepDistanceCar : Car
     {
-        int maxSpeed;
-
-        Random random;
-        public UnKeepDistanceCar(int maxSpeed, int positionX)
+        public UnKeepDistanceCar(int speed, int positionX, int width)
         {
-            this.maxSpeed = maxSpeed;
+            this.speed = speed;
 
-            random = new Random(DateTime.Now.Second);
+            Width = width;
 
             PositionX = positionX;
         }
-        public override void Move()
+        public override void Move(Car frontCar)
         {
-            var speed = random.Next(1, maxSpeed);
+            if(frontCar == null)
+            {
+                PositionX += speed;
 
-            PositionX += speed;
+                return;
+            }
+
+            int distance = frontCar.PositionX - PositionX - (Width + frontCar.Width);
+
+            if (distance > speed)
+            {
+                PositionX += speed;
+            }
+            else
+            {
+                PositionX += Math.Min(speed / 2, distance);
+            }
         }
     }
 }
