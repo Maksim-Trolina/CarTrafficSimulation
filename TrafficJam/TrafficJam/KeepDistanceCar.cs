@@ -20,23 +20,30 @@ namespace TrafficJam
 
         public override void Move(Car frontCar)
         {
+            //Если frontCar равно null, то впереди нет никаких машин
             if (frontCar == null)
             {
-                PositionX += speed;
-
-                return;
-            }
-
-            int distance = frontCar.PositionX - PositionX - (Width + frontCar.Width);
-
-            if (distance > speed + speed/2)
-            {
-                PositionX += speed;
+                speed += Acceleration;
             }
             else
             {
-                PositionX += Math.Min(speed, distance);
+                int distance = frontCar.PositionX - PositionX - (Width + frontCar.Width);
+
+                if (distance < speed + Acceleration)
+                {
+                    speed = 0;
+                }
+                else if (distance < speed + 3*Acceleration)
+                {
+                    speed -= Acceleration;
+                }
+                else
+                {
+                    speed += Acceleration;
+                }
             }
+
+            PositionX += speed;
         }
     }
 }

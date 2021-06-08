@@ -10,6 +10,8 @@ namespace TrafficJam
     abstract class  Car
     {
         protected int speed;
+
+        protected const int Acceleration = 1;
         public int Width { get; protected set; }
         public int PositionX { get; protected set; }
 
